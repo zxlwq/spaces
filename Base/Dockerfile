@@ -3,6 +3,11 @@ FROM rclone/rclone:latest AS rclone
 
 FROM python:3.13-slim-bullseye
 
+ENV DEBIAN_FRONTEND=noninteractive \
+    GENERIC_TIMEZONE=Asia/Shanghai \
+    TZ=Asia/Shanghai \
+    N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
 ARG N8N_PATH=/usr/local/lib/node_modules/n8n
