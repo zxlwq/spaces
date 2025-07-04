@@ -43,7 +43,7 @@ jobs:
           context: ./Base
           push: true
           tags: |
-            ghcr.io/${{ steps.lower-repo.outputs.repository }}/base:latest
+            ghcr.io/zxlwq/base:latest
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.description=Base Docker Image
