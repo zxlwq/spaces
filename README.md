@@ -11,3 +11,12 @@ Huggingface的一些space代码
 # 推荐适用于Rclone的Webdav：   
 https://infini-cloud.net/en/    
 推荐码:QU2MJ
+
+#### 如需在脚本中使用rclone配置文件 需要在github项目的settings/secrets/actions处添加变量名为RCLONE_CONF的secrets  
+
+
+python文件为使用抱脸sdk创建space代码：   
+青龙面板使用方法[token和userid为必填参数]:   
+```
+python qinglong.py --token="" --userid="" --admin="" --password="" --image="" --rclone_conf_path=""
+```
