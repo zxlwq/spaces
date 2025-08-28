@@ -7,12 +7,12 @@ on:
         description: '抱脸的Token,需要写权限'
         required: true
         default: ''
-      UserID:
-        description: '抱脸用户名'
-        required: true
-        default: ''
       Key:
         description: 'N8N的加密Key:这个需要妥善保管'
+        required: true
+        default: ''
+      Password:
+        description: 'Code Server的管理密码'
         required: true
         default: ''
       Image:
@@ -56,7 +56,8 @@ jobs:
 
       - name: 运行脚本
         run: |
-          python n8n.py --token="${{ github.event.inputs.Token}}" --userid="${{ github.event.inputs.UserID}}" --key="${{ github.event.inputs.Key}}" --image="${{ github.event.inputs.Image}}"
+          rclone_conf_path=$(rclone config file | awk 'NR==2')
+          python n8n.py --token="${{ github.event.inputs.Token}}" --rclone_conf_path="$rclone_conf_path" --key="${{ github.event.inputs.Key}}" --password="${{ github.event.inputs.Password}}" --image="${{ github.event.inputs.Image}}"
    
       # - name: Delete workflow runs
       #   uses: Mattraks/delete-workflow-runs@v1.2.3
