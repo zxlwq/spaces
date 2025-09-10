@@ -1,4 +1,4 @@
-name: Build and Push N8n Docker Image
+name: 构建并推送 N8n Docker 镜像
 
 on:
   workflow_dispatch:
@@ -24,18 +24,13 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - id: lower-repo
-        shell: pwsh
-        run: |
-          "::set-output name=repository::$($env:GITHUB_REPOSITORY.ToLowerInvariant())"
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: ./Base
           push: true
           tags: |
-            ghcr.io/${{ steps.lower-repo.outputs.repository }}/n8n:latest
+            ghcr.io/zxlwq/n8n:latest
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.description=N8n Docker Image
