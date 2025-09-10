@@ -34,7 +34,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/zxlwq/qinglong
+          images: ghcr.io/zxlwq/lwqg
           tags: |
             type=ref,event=branch
             type=ref,event=pr
