@@ -1,4 +1,4 @@
-name: Build and Push QingLong Docker Image
+name: 构建并推送青龙Docker镜像
 
 on:
   push:
