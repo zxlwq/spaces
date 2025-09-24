@@ -116,7 +116,6 @@ Check out the configuration reference at https://huggingface.co/docs/hub/spaces-
         space_sdk="docker",
         space_secrets=[
             {"key": "ALIST_ADMIN_PASSWORD", "value": password},
-            {"key": "ADMIN_PASSWORD", "value": password},
             {"key": "RCLONE_CONF", "value": rclone_conf},
         ],
     )
