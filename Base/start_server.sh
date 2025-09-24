@@ -23,7 +23,7 @@ if [ -n "$RCLONE_CONF" ]; then
       echo "初次安装"
     else
       #echo "文件夹不为空"
-      rclone sync $REMOTE_FOLDER /home/coder/.n8n 
+      rclone sync $REMOTE_FOLDER ~/.n8n 
     fi
   elif [[ "$OUTPUT" == *"directory not found"* ]]; then
     echo "错误：文件夹不存在"
@@ -38,8 +38,8 @@ fi
 ln -s ~/.n8n ~/n8n-data
 mkdir /etc/nginx/conf.d
 mkdir /run/nginx
-cp -fv /home/coder/apps.conf /etc/nginx/conf.d
-cp -fv /home/coder/nginx.conf /etc/nginx/nginx.conf
+cp -fv ~/apps.conf /etc/nginx/conf.d
+cp -fv ~/nginx.conf /etc/nginx/nginx.conf
 
 echo -e "======================启动nginx========================\n"
 nginx -s reload 2>/dev/null || nginx -c /etc/nginx/nginx.conf
@@ -47,11 +47,13 @@ echo -e "nginx启动成功...\n"
 
 echo -e "======================启动pm2服务========================\n"
 pm2 start n8n
+export PASSWORD=$ADMIN_PASSWORD
+pm2 start "code-server --bind-addr 0.0.0.0:7860 --port 7860" --name "code-server"
 pm2 startup
 pm2 save
 
-export PASSWORD=$ADMIN_PASSWORD
-code-server --bind-addr 0.0.0.0:7860 --port 7860
+# export PASSWORD=$ADMIN_PASSWORD
+# code-server --bind-addr 0.0.0.0:7860 --port 7860
 
 tail -f /dev/null
 
