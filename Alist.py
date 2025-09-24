@@ -16,7 +16,6 @@ parser.add_argument(
     default="",
 )
 parser.add_argument("--image", help="Alist镜像地址", default="") 
-
 parser.add_argument("--password", help="Alist默认登录密码", default="") 
 parser.add_argument("--rclone_conf_path", help="Rclone配置文件路径", default="")
 
@@ -83,8 +82,6 @@ if __name__ == "__main__":
     image = "ghcr.io/zxlwq/alist:latest"
     if len(args.image) > 0:
         image = args.image
-
-    
     password = "Hpassword654321"
     if len(args.password) > 0:
         password = args.password
