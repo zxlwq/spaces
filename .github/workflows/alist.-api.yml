@@ -9,7 +9,7 @@ on:
         default: ''
       Password:
         description: 'Alist默认密码'
-        required: false
+        required: true
         default: ''
       Image:
         description: 'Alist镜像地址'
