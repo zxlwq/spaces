@@ -1,3 +1,5 @@
+# Use n8n v2 :https://github.com/yangshoulai/n8n
+FROM yangshoulai/n8n:2.2.1 as n8nbuilder
 FROM node:24-slim as nodebuilder
 FROM rclone/rclone:latest AS rclone
 
@@ -5,9 +7,11 @@ FROM python:3.13-slim-trixie
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
-ENV REMOTE_FOLDER="huggingface:/n8n"
+ENV REMOTE_FOLDER="huggingface:/n8n-v2"
 ENV NODE_FUNCTION_ALLOW_BUILTIN=*
 ENV NODE_FUNCTION_ALLOW_EXTERNAL=*
+ENV N8N_BLOCK_ENV_ACCESS_IN_NODE=false 
+ENV NODES_EXCLUDE="[]"
 ENV N8N_RUNNERS_STDLIB_ALLOW=*
 ENV N8N_RUNNERS_EXTERNAL_ALLOW=*
 ARG N8N_PATH=/usr/local/lib/node_modules/n8n
@@ -29,9 +33,13 @@ ARG N8N_ENCRYPTION_KEY=$N8N_ENCRYPTION_KEY
 ARG RCLONE_CONF=$RCLONE_CONF
 
 
+
+COPY --from=n8nbuilder /usr/local/lib/node_modules/n8n /usr/local/lib/node_modules/n8n
 COPY --from=nodebuilder /usr/local/bin/node /usr/local/bin/
 COPY --from=nodebuilder /usr/local/lib/node_modules/. /usr/local/lib/node_modules/
 COPY --from=rclone /usr/local/bin/rclone /usr/bin/rclone
+
+
 
 # Install necessary packages
 RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm && \
@@ -75,13 +83,14 @@ ENV NPM_CONFIG_PREFIX=/npm-global
 # 创建一个共享的目录来安装全局包
 RUN mkdir -p /npm-global 
     
+RUN cd /usr/local/lib/node_modules/n8n && npm rebuild sqlite3  && ln -s /usr/local/lib/node_modules/n8n/bin/n8n /usr/local/bin/n8n
 
 # 将该目录加入到 PATH 环境变量中
 ENV PATH=/npm-global/bin:$PATH
 
 RUN npm config set prefix '/npm-global'
 
-RUN npm install -g pnpm pm2 n8n
+RUN npm install -g pnpm pm2
 
 RUN mkdir /n8n-data
 RUN chmod -R 777 /var && \
