@@ -1,4 +1,4 @@
-name: Build and Push Halalcloud Docker Image
+name: Build and Push Uptime-kuma Docker Image
 
 on:
   workflow_dispatch:
@@ -32,13 +32,13 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./Halalcloud
+          context: ./Uptime
           push: true
           tags: |
-            ghcr.io/${{ steps.lower-repo.outputs.repository }}/halalcloud:latest
+            ghcr.io/${{ steps.lower-repo.outputs.repository }}/uptime-kuma:latest
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
-            org.opencontainers.image.description=Halalcloud Docker Image
+            org.opencontainers.image.description=Uptime-kuma Docker Image
             org.opencontainers.image.licenses=MIT
           cache-from: type=gha
           cache-to: type=gha,mode=max
